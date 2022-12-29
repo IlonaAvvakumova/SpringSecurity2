@@ -1,24 +1,23 @@
 package com.SpringRest.model;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 
-
 @Entity
-@Table(name = "events", schema="flyway_db")
-public class Event {
+@Table(name = "events", schema = "flyway_db")
+public class EventEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-
     @JsonBackReference
-    User user;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+    private UserEntity user;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "file_id")
-    FileEntity fileEntity;
+    private FileEntity fileEntity;
 
     public Integer getId() {
         return id;
@@ -28,11 +27,11 @@ public class Event {
         this.id = id;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 

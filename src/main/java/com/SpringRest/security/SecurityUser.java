@@ -1,7 +1,7 @@
 package com.SpringRest.security;
 
 import com.SpringRest.model.Status;
-import com.SpringRest.model.User;
+import com.SpringRest.model.UserEntity;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -61,7 +61,7 @@ public class SecurityUser implements UserDetails {
     public boolean isEnabled() {
         return isActive;
     }
-    public static UserDetails fromUser(User user){
+    public static UserDetails fromUser(UserEntity user){
         return new org.springframework.security.core.userdetails.User(
                 user.getName(), user.getPassword(),user.getStatus().equals(Status.ACTIVE),
                 user.getStatus().equals(Status.ACTIVE),user.getStatus().equals(Status.ACTIVE),

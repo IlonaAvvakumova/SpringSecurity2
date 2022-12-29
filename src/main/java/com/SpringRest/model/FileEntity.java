@@ -1,23 +1,19 @@
 package com.SpringRest.model;
-
 import javax.persistence.*;
 
-
 @Entity
-
-@Table(name = "files", schema="flyway_db")
-
+@Table(name = "files", schema = "flyway_db")
 public class FileEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
-    String name;
-    String filePath;
+    private Integer id;
+    private String name;
+    private String filePath;
 
     public Integer getId() {
         return id;
     }
-
 
 
     public String getName() {

@@ -17,23 +17,23 @@ public class FileService {
         this.fileRep = fileRep;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
+
     public List<FileEntity> getAll() {
         return fileRep.findAll();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
+
     public FileEntity getById(Integer id) {
         Optional<FileEntity> optional = fileRep.findById(id);
         return optional.orElse(null);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
+
     public FileEntity create(FileEntity fileEntity) {
         return fileRep.save(fileEntity);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
+
     public void deleteById(Integer id) {
         fileRep.deleteById(id);
     }

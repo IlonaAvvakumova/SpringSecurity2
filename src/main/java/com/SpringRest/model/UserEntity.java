@@ -1,28 +1,28 @@
 package com.SpringRest.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.List;
 
-
 @Entity
 @Table(name = "users", schema = "flyway_db")
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
     @Enumerated(value = EnumType.STRING)
     private Role role;
     private String password;
+
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Event.class)
-    private List<Event> eventEntities;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = EventEntity.class)
+    private List<EventEntity> eventEntities;
 
     public Integer getId() {
         return id;
@@ -48,11 +48,11 @@ public class User {
         this.name = name;
     }
 
-    public List<Event> getEventEntities() {
+    public List<EventEntity> getEventEntities() {
         return eventEntities;
     }
 
-    public void setEventEntities(List<Event> eventEntities) {
+    public void setEventEntities(List<EventEntity> eventEntities) {
         this.eventEntities = eventEntities;
     }
 

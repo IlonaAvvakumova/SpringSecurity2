@@ -1,5 +1,5 @@
 package com.SpringRest.security;
-import com.SpringRest.model.User;
+import com.SpringRest.model.UserEntity;
 import com.SpringRest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = userRepository.findByName(username).orElseThrow(()-> new UsernameNotFoundException("User doesn't exists"));
+    UserEntity user = userRepository.findByName(username).orElseThrow(()-> new UsernameNotFoundException("User doesn't exists"));
         return SecurityUser.fromUser(user);
     }
 }

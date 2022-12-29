@@ -1,8 +1,7 @@
 package com.SpringRest.service;
 
-import com.SpringRest.model.Event;
+import com.SpringRest.model.EventEntity;
 import com.SpringRest.repository.EventRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +16,12 @@ public class EventService {
         this.eventRep = eventRep;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
-    public List<Event> getAll() {
+    public List<EventEntity> getAll() {
         return eventRep.findAll();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
-    public Event getById(Integer id) {
-       Optional<Event> optional =  eventRep.findById(id);
-       return optional.orElse(null);
+    public EventEntity getById(Integer id) {
+        Optional<EventEntity> optional = eventRep.findById(id);
+        return optional.orElse(null);
     }
 }
