@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.6'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "org.flywaydb.flyway" version "9.8.1"
 }
 
 group = 'com.ууууу'
@@ -21,7 +22,19 @@ dependencies {
 	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.7.6'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: '2.7.6'
+	implementation group: 'org.flywaydb', name: 'flyway-core', version: '9.8.1'
 
+
+}
+flyway {
+	url = 'jdbc:postgresql://localhost:5432/postgres'
+	user = 'postgres'
+	password = '159753'
+	schemas = ['flyway_db']
+//	placeholders = [
+//			'keyABC': 'valueXYZ',
+//			'otherplaceholder': 'value123'
+//	]
 }
 
 tasks.named('test') {
