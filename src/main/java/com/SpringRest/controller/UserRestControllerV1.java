@@ -1,13 +1,17 @@
 package com.SpringRest.controller;
 
+import com.SpringRest.model.FileEntity;
 import com.SpringRest.model.UserEntity;
 import com.SpringRest.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -21,29 +25,36 @@ public class UserRestControllerV1 {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR') ")
-    public List<UserEntity> getAll() throws JsonProcessingException {
-        return userService.getAll();
+    public ResponseEntity<?> getAll() throws JsonProcessingException {
+        List<UserEntity> users = userService.getAll();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR') or hasRole('ROLE_USER')")
-    public UserEntity getById(@PathVariable("id") int id) throws IOException {
-        return userService.getById(id);
+    public ResponseEntity<?> getById(@PathVariable("id") int id) throws IOException {
+        UserEntity user = userService.getById(id);
+        if(Objects.isNull(user)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/create")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    protected String create(@RequestBody UserEntity user) throws IOException {
-        return "Created user: " + userService.create(user).toString();
+    protected ResponseEntity<?> create(@RequestBody UserEntity user) throws IOException {
+         UserEntity userEntity= userService.create(user);
+         return ResponseEntity.ok(userEntity);
     }
 
     @PutMapping("/update/{id}")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_ADMIN')  ")
-    protected UserEntity update(@RequestBody UserEntity user, @PathVariable("id") int id) throws IOException {
+    protected ResponseEntity<?> update(@RequestBody UserEntity user, @PathVariable("id") int id) throws IOException {
         user.setId(id);
-        return userService.update(user);
+        UserEntity userEntity =  userService.update(user);
+        return ResponseEntity.ok(userEntity);
     }
 
     @DeleteMapping("/{id}")
