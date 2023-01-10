@@ -4,6 +4,7 @@ import com.SpringRest.model.EventEntity;
 import com.SpringRest.model.FileEntity;
 import com.SpringRest.model.UserEntity;
 import com.SpringRest.service.FileService;
+import com.SpringRest.service.S3Service;
 import com.SpringRest.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,9 +31,19 @@ public class FileRestControllerV1 {
     @Autowired
     private final UserService userService;
 
-    public FileRestControllerV1(FileService fileService, UserService userService) {
+    private final S3Service s3Service;
+
+    public FileRestControllerV1(FileService fileService, UserService userService, S3Service s3Service) {
         this.fileService = fileService;
         this.userService = userService;
+        this.s3Service = s3Service;
+    }
+    @PostMapping("/uploadFile")
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        s3Service.uploadFile(file);
+        return ResponseEntity.ok().body("file received successfully");
     }
 
     @GetMapping
