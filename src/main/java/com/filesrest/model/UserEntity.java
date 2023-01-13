@@ -1,11 +1,20 @@
 package com.filesrest.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "flyway_db")
+@Data
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 public class UserEntity {
 
     @Id
@@ -24,51 +33,5 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = EventEntity.class)
     private List<EventEntity> eventEntities;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<EventEntity> getEventEntities() {
-        return eventEntities;
-    }
-
-    public void setEventEntities(List<EventEntity> eventEntities) {
-        this.eventEntities = eventEntities;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

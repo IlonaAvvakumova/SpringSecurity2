@@ -1,8 +1,9 @@
-package com.filesrest.controller;
+package com.filesrest.rest;
 
 import com.filesrest.model.UserEntity;
 import com.filesrest.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,13 +15,12 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
 public class UserRestControllerV1 {
 
     private final UserService userService;
 
-    public UserRestControllerV1(UserService userService) {
-        this.userService = userService;
-    }
+
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR') ")

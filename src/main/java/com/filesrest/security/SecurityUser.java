@@ -14,14 +14,14 @@ import java.util.List;
 @Data
 public class SecurityUser implements UserDetails {
 
-    private final String username;
+    private final String name;
     private final String password;
     private final List<SimpleGrantedAuthority> authorities;
     private final boolean isActive;
 
 
-    public SecurityUser(String username, String password, List<SimpleGrantedAuthority> authorities, boolean isActive) {
-        this.username = username;
+    public SecurityUser(String name, String password, List<SimpleGrantedAuthority> authorities, boolean isActive) {
+        this.name = name;
         this.password = password;
         this.authorities = authorities;
         this.isActive = isActive;
@@ -39,7 +39,11 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

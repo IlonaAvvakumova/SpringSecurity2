@@ -1,4 +1,4 @@
-package com.filesrest.controller;
+package com.filesrest.rest;
 
 import com.filesrest.model.EventEntity;
 import com.filesrest.model.FileEntity;
@@ -7,6 +7,8 @@ import com.filesrest.service.FileService;
 import com.filesrest.service.S3Service;
 import com.filesrest.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,26 +25,24 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/files")
+@RequiredArgsConstructor
+
 public class FileRestControllerV1 {
 
     private final FileService fileService;
-    @Autowired
+
     private final UserService userService;
 
     private final S3Service s3Service;
 
-    public FileRestControllerV1(FileService fileService, UserService userService, S3Service s3Service) {
-        this.fileService = fileService;
-        this.userService = userService;
-        this.s3Service = s3Service;
-    }
-    @PostMapping("/uploadFile")
-    @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
-        s3Service.uploadFile(file);
-        return ResponseEntity.ok().body("file received successfully");
-    }
+
+//    @PostMapping("/uploadFile")
+//    @Transactional
+//    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
+//    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+//        s3Service.uploadFile(file);
+//        return ResponseEntity.ok().body("file received successfully");
+//    }
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
@@ -64,7 +64,7 @@ public class FileRestControllerV1 {
     @PostMapping("/create")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
-    protected ResponseEntity<?> create(@RequestBody FileEntity fileEntity, @RequestHeader(value = "user_id") int id) {
+    protected ResponseEntity<?> create( @RequestParam("file") MultipartFile multipartFile, @RequestBody FileEntity fileEntity, @RequestHeader(value = "user_id") int id) {
 
         UserEntity user = userService.getById(id);
         if(Objects.isNull(user) ){
@@ -73,13 +73,14 @@ public class FileRestControllerV1 {
         if( Objects.isNull(fileEntity)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        List<EventEntity> eventEntities = new ArrayList<>();
-        EventEntity event = new EventEntity();
-        event.setFileEntity(fileEntity);
-        event.setUser(user);
-        eventEntities.add(event);
-        user.setEventEntities(eventEntities);
+//        List<EventEntity> eventEntities = new ArrayList<>();
+//        EventEntity event = new EventEntity();
+//        event.setFileEntity(fileEntity);
+//        event.setUser(user);
+//        eventEntities.add(event);
+//        user.setEventEntities(eventEntities);
         userService.update(user);
+        fileService.create(multipartFile, user);
         return ResponseEntity.ok(fileEntity);
     }
 

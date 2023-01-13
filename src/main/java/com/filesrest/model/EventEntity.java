@@ -1,9 +1,19 @@
 package com.filesrest.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.annotation.sql.DataSourceDefinitions;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "events", schema = "flyway_db")
+@Data
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 public class EventEntity {
 
     @Id
@@ -19,36 +29,4 @@ public class EventEntity {
     @JoinColumn(name = "file_id")
     private FileEntity fileEntity;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
-    public FileEntity getFileEntity() {
-        return fileEntity;
-    }
-
-    public void setFileEntity(FileEntity fileEntity) {
-        this.fileEntity = fileEntity;
-    }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", user=" + user.getName() +
-                ", fileEntity=" + fileEntity.getName() +
-                '}';
-    }
 }

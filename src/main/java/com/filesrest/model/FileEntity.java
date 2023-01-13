@@ -1,7 +1,16 @@
 package com.filesrest.model;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "files", schema = "flyway_db")
 public class FileEntity {
 
@@ -11,25 +20,6 @@ public class FileEntity {
     private String name;
     private String filePath;
 
-    public Integer getId() {
-        return id;
-    }
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
 
 }
