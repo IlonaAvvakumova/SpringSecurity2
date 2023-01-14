@@ -20,7 +20,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+    private String username;
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
